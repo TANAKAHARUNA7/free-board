@@ -24,7 +24,7 @@
         이름: 
         <input type="text" name="name" required><br>
         제목:
-        <input type="text" name="subject" required><br>
+        <input type="text" name="title" required><br>
         내용:
         <textarea name="content" id="content" rows="5" cols="60" required></textarea><br>
         비미번호:

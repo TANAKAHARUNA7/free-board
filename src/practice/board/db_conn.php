@@ -4,5 +4,5 @@ class db_info {
     const DB_USER = 'root';
     const DB_PASSWORD = 'root';
     const DB_NAME = 'bulletin_board';
-}
+};
 ?>
