@@ -19,6 +19,7 @@
     -->
 
     <h1>글쓰기</h1>
+    <hr>
     <form action="write_process.php" method="post">
         <fieldset>
         이름: 
@@ -33,6 +34,8 @@
         <input type="reset" value="초기화">
         </fieldset>
     </form>
+    <br>
+    <button><a href="index.php">목록</a></button>
 
 </body>
 

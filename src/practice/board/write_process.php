@@ -37,7 +37,7 @@ if ($db_conn->connect_errno) {
 
 //  DB에 INSERT
 $sql = " INSERT INTO posts (id, title, name, pw, content, created_at)
-        VALUES (NULL, '$title', '$name', '$pw', '$content', NOW())";
+        VALUES (NULL, '$title', '$name', '$pw_hash', '$content', NOW())";
 $result = $db_conn->query($sql);
 
 // 성공하면 목록으로 이동
