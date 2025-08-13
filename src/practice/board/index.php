@@ -9,10 +9,7 @@ $db_conn = new mysqli(
 );
     
 $sql = "SELECT * FROM posts";
-$result = $db_conn->query($sql);
-if ($result && $row = $result->fetch_assoc()) {
-    
-}
+        $result = $db_conn->query($sql);
         
 ?>
 
@@ -48,6 +45,14 @@ if ($result && $row = $result->fetch_assoc()) {
             <th>내용</th>
             <th>날짜</th>
         </tr>
+        <?php
+        
+        if ($result && $row = $result->fetch_assoc())  {
+            $row['name']
+        }
+        ?>
+
+
         <tr>
             <td></td>
         </tr>
