@@ -1,16 +1,19 @@
 <?php
+
+// DB 연결
 require_once("./db_conn.php");
-    
+
 $db_conn = new mysqli(
     db_info::DB_HOST,
     db_info::DB_USER,
     db_info::DB_PASSWORD,
     db_info::DB_NAME
 );
-    
-$sql = "SELECT * FROM posts";
-        $result = $db_conn->query($sql);
-        
+
+// DB에서 글을 가져 오기
+$sql = "SELECT * FROM posts ORDER BY id DESC";
+$result = $db_conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +37,8 @@ $sql = "SELECT * FROM posts";
         3. 페이지 이동 제공
     -->
 
-    
-
     <h1>글 목록</h1>
-
+    <hr>
     <table border="1">
         <tr>
             <th>이름</th>
@@ -46,17 +47,21 @@ $sql = "SELECT * FROM posts";
             <th>날짜</th>
         </tr>
         <?php
-        
-        if ($result && $row = $result->fetch_assoc())  {
-            $row['name']
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>{$row['name']}</td>";
+                echo "<td><a href='view.php?id={$row['id']}'>{$row['title']}</a></td>";
+                echo "<td>{$row['content']}</td>";
+                echo "<td>{$row['created_at']}</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "글이 없습니다.";
         }
         ?>
-
-
-        <tr>
-            <td></td>
-        </tr>
     </table>
+    <button><a href="write.php">글쓰기</a></button>
 
 </body>
 
