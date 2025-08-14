@@ -64,5 +64,4 @@ $result = $db_conn->query($sql);
     <button><a href="write.php">글쓰기</a></button>
 
 </body>
-
 </html>
