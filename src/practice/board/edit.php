@@ -1,8 +1,11 @@
 <?php
+session_start();
+
 // id를 GET 방식으로 받기
 if (!empty($_GET['id'])) {
     $id = $_GET['id'];
 }
+
 
 // DB연결
 require_once("./db_conn.php");
@@ -39,6 +42,7 @@ $result = $db_conn->query($sql);
     <hr>
     <form action="edit_process.php" method="post">
         <?php if ($row = $result->fetch_assoc()): ?>
+            <input type="hidden" name="id" value="<?= $row['id']?>">
             <p>제목:<input type="text" name="title" value="<?=$row['title']?>"> </p>
             <p>날짜: <?=$row['created_at']?></p>
             <p>이름: <input type="text" name="name" value="<?=$row['name']?>"></p>
@@ -48,7 +52,7 @@ $result = $db_conn->query($sql);
             글이 없습니다.
         <?php endif; ?>
         <?php if (isset($row['updated_at'])): ?>
-            수정 날짜: <?=$row['updated_at']?>
+            <p>수정 날짜: <?=$row['updated_at']?></p>
         <?php endif; ?>
         <button>수정하기</button>
         <input type="reset" value="초기화">
@@ -57,5 +61,4 @@ $result = $db_conn->query($sql);
     <button><a href="view.php?id=<?=$row['id']?>">돌아가기</a></button>
 
 </body>
-
 </html>

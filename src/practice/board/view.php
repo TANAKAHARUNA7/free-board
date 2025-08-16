@@ -46,11 +46,11 @@ $result = $db_conn->query($sql);
         <!-- 수정 -> edit.php에 id를 GET방식으로 보내기 -->
         <button><a href="edit.php?id=<?=$row['id'] ?>">수정</a></button>
         <!-- 삭제 -> delete.php에 id를 GET방식으로 보내기 -->
-        <button><a href="delete.php?id=<?= $row['id'] ?>">삭제</a></button>
-        <button><a href="index.php">목록</a></button>
+        <button><a href="delete.php?id=<?= $row['id'] ?>">삭제</a></button>     
     <?php else: ?>
         <p>해당 되는 데이터가 없습니다.</p>
     <?php endif; ?>
+    <button><a href="index.php">목록</a></button>
 
 </body>
 
