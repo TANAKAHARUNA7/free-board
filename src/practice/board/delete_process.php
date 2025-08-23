@@ -1,20 +1,20 @@
 <?php
 
+session_start();
+
 // POST방식으로 id를 처리
-if (!empty($_POST['id'])){
-    $id = $_POST['id'];
-} else {
+$id = isset($_POST['id']) ? (int)($_POST['id']) : '';
+if ($id === ''){
+    $_SESSION['error'] = "시스템 오류 발생";
     header("Refresh: 2; URL='delete.php'");
-    echo "시스템 오류 발생";
     exit;
 }
 
 // POST방식으로 pw를 처리
-if (!empty($_POST['pw'])) {
-    $pw = $_POST['pw'];
-} else {
-    header("Refresh: 2; URL='delete.php'");
-    echo "비밀번호를 입력하세요.";
+$pw = isset($_POST['pw']) ? trim($_POST['pw']) : '';
+if ($pw === '') {
+    $_SESSION['error'] = "비밀번호를 입력하세요.";
+    header("Location: delete.php?id=$id");
     exit;
 }
 
@@ -57,8 +57,8 @@ if (password_verify($pw, $row['pw'])) {
     }
 // ** 안 맞으면 오류 메시지 출력 delete.php 로 이동
 } else {
-    header("Refresh: 2; URL='delete.php'");
-    echo "비밀번호가 들렸습니다.";
+    $_SESSION['error'] = "비밀번호가 들렸습니다.";
+    header("Location:delete.php");
     exit;
 }
 

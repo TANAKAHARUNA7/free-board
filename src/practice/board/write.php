@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,16 +14,21 @@
 </head>
 
 <body>
+    <?php
+        if (isset($_SESSION['error'])) {
+            echo htmlspecialchars($_SESSION['error']);
+            unset($_SESSION['error']);
+        }   
+    ?>
+
     <!--
         ・이름
         ・제목
         ・내용
         ・비밀번호
-
         form : action"write_process.php" method:post
         글쓰기 버튼, 초기화 버튼
     -->
-
     <h1>글쓰기</h1>
     <hr>
     <form action="write_process.php" method="post">

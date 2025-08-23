@@ -1,26 +1,17 @@
 <?php
 session_start();
 
+$id = isset($_POST['id']) ? (int)($_POST['id']) : 0;
+$name = isset($_POST['name']) ? trim($_POST['name']) : '';
+$title = isset($_POST['title']) ? trim($_POST['title']) : '';
+$content = isset($_POST['content']) ? trim($_POST['content']) : '';
+$pw = isset($_POST['pw']) ? trim($_POST['pw']) : '';
 
 // POST방식으로 id, name, title, content, pw를 받는다.
-if (isset($_POST['id'])) {
-    $id = $_POST['id'];
-    if (isset($_POST['name']) && isset($_POST['title'])
-        && isset($_POST['content']) && isset($_POST['pw']))
-    {
-        $name = $_POST['name'];
-        $title = $_POST['title'];
-        $content = $_POST['content'];
-        $pw = $_POST['pw'];
-    } else {
-        $_SESSION['empty_error'] = "모든 빌드를 입력하세요.";
-        $_SESSION['id'] = $id;
-        header("Refresh: 2; URL='edit.php'");
-        exit;
-    }
-} else {
-    header("Refresh: 2; URL='edit.php'");
-    echo "id전달 오류 발생";
+if ($id === '' || $name === '' || $title === ''
+    || $content === '' || $pw === '') {
+    $_SESSION['error'] = "모든 빌드를 입력하세요.";
+    header("Location: edit.php?id=$id");
     exit;
 }
 
@@ -34,8 +25,8 @@ $db_conn = new mysqli(
 );
 
 if ($db_conn->connect_errno) {
-    header("Refresh: 2; URL='edit.php'");
-    echo "DB연결 오류발생";
+    $_SESSION['error'] = "DB연결 오류발생";
+    header("Location: edit.php?id=$id");
     exit;
 }
 
@@ -53,16 +44,17 @@ if (password_verify($pw, $row['pw'])) {
 
     $update_result = $db_conn->query($update_sql);
     if ($update_result) {
-        header("Refresh: 2; URL='view.php'");
+        header("Refresh: 2; URL='view.php?id=$id'");
         echo "수정이 완료 되었습니다.";
         exit;
     } else {
-        header("Refresh: 2; URL='edit.php'");
+        header("Refresh: 2; URL='edit.php?id=$id'");
         echo "시스템 오류가 발생했습니다.";
         exit;
     }
     // ** 안 맞으면 -> 오류 메시지 표시 & edit.php로 이동하기
 } else {
-    echo "비밀번호가 들렸습니다.";
+    $_SESSION['error'] = "비밀번호가 들렸습니다.";
+    header("Location: edit.php?id=$id");
     exit;
 }

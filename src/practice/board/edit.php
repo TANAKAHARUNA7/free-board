@@ -2,10 +2,12 @@
 session_start();
 
 // id를 GET 방식으로 받기
-if (!empty($_GET['id'])) {
-    $id = $_GET['id'];
+$id = isset($_GET['id']) ? (int)($_GET['id']) : '';
+if ($id === '') {
+    $_SESSION['id_error'] = "id전달 오류 발생.";
+    header("Location: view.php?id=$id");
+    exit;
 }
-
 
 // DB연결
 require_once("./db_conn.php");
@@ -15,6 +17,12 @@ $db_conn = new mysqli(
     db_info::DB_PASSWORD,
     db_info::DB_NAME
 );
+
+if ($db_conn->connect_errno) {
+    $_SESSION['db_error'] = "데이터 베이스 연결오류가 발생했습니다.";
+    header("Location: view.php?id=$id");
+    exit;
+}
 
 // SELECT로 해당 ID의 글을 가져 오기
 $sql = "SELECT * FROM posts WHERE id='$id'";
@@ -33,6 +41,15 @@ $result = $db_conn->query($sql);
 </head>
 
 <body>
+
+    <?php
+        if (isset($_SESSION['error'])) {
+            echo "<p style='color:red'>"
+                .htmlspecialchars($_SESSION['error']) ."</p>";
+            unset($_SESSION['error']);
+        }
+    ?>
+
     <!--     
         수정 form 기존 데이터 표시
         비밀번호 확인

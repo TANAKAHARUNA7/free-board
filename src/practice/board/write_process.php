@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // 1. 입력 값을 POST로 처리
 // 이름
 // 제목
@@ -12,8 +12,8 @@ $pw = isset($_POST['pw']) ? trim($_POST['pw']) : '';
 
 // **공백이 있으면 -> 오류 표시 + “write.php”로 이동
 if ($name === '' || $title === '' || $content === '' || $pw === '') {
-    header("Refresh: 2; URL='write.php'");
-    echo "모든 빌드를 입력하세요.";
+    $_SESSION['error'] = "모든 빌드를 입력하세요.";
+    header("Location: 'write.php'");
     exit;
 } 
 
@@ -30,8 +30,8 @@ $db_conn = new mysqli(
 );
 
 if ($db_conn->connect_errno) {
-    header("Refresh: 2; URL='write.php'");
-    echo "DB연결 오류가 발생했습니다.";
+    $_SESSION['error'] = "DB연결 오류가 발생했습니다.";
+    header("Location: 'write.php'");
     exit;
 }
 
